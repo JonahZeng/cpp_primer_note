@@ -43,7 +43,7 @@ it++; //error， const迭代器不可以修改指向其他对象
 typedef string* pstring;
 const pstring p= "hello world!";
 ```
-请问，p是什么类型？字面上看，是`const string*`，事实上，p的类型是`string* const`，大部分人的错误认知来源于c语言中的**#define**;
+请问，p是什么类型？字面上看，是`const string*`，事实上，p的类型是`string* const`，大部分人的错误认知来源于c语言中的`#define`;
 在这里， pstring已经是指针类型了，const修饰的就是指针;
 ```c++
 #include <iostream>

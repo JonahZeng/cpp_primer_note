@@ -59,5 +59,25 @@ vector<boy> boy_vec(10, 13);//ok
 |iter+n, iter-n|往后n个位置元素的迭代器， 往前n个位置的元素迭代器|
 |iter_1 -= iter_2, iter_1 += iter_2|复合操作，iter_1减iter_2的值，赋给iter_1|
 |iter_1 - iter_2|迭代器相减， 获取位置距离差|
-|<, <=, >, >=|当一个迭代器指向的元素位于另一个迭代器指向的元素之前，则这个迭代器小于另一个迭代器
-因为只有vector和deque提供快速随机访问
+|<, <=, >, >=|当一个迭代器指向的元素位于另一个迭代器指向的元素之前，则这个迭代器小于另一个迭代器|
+
+因为只有vector和deque提供快速随机访问,其他顺序容器内部实现不是连续的，所有只能实现++,--,==,!=这样的相邻操作；
+反序输出list的一个例子：
+```c++
+list<int> list_age(10);
+list<int>::size_type cnt=0;
+for(list<int>::iterator it = list_age.begin(); it != list_age.end(); it++, cnt++)
+{
+    *it = cnt;
+}
+//-----revert output----
+list<int>::iterator it = list_age.end();
+it--;
+for(;it != --list_age.begin(); --it)
+    cout<<*it<<endl;
+//------revert output , with reverse_iterator
+list<int>::reverse_iterator it = list_age.rbegin();
+for(;it != list_age.rend(); ++it)
+    cout<<*it<<endl;
+```
+

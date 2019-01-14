@@ -102,3 +102,43 @@ clean:
 ```
 注意preLaunchTask标签，**需要和task.json中的label保持一致**；
 然后就是program标签填你编译出来的可执行文件名
+
+## Windows环境下使用MSVC编译
+以pybind11为例,编译一个cpp: example.cpp
+```c++
+#include <pybind11/pybind11.h>
+#include <Python.h>
+
+namespace py = pybind11;
+
+int add(int i, int j)
+{
+    return i+j;
+}
+
+PYBIND11_MODULE(example, m)
+{
+    m.doc() = "pybind11 example plugin";
+    m.def("add", &add, "A function which adds two numbers");
+}
+```
+要编译这个cpp文件，新建一个task.json
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build pybind11 example",
+            "type": "shell",
+            "command": "./build.bat"
+        }
+    ]
+}
+```
+这个task直接调用同目录下的build.bat文件：
+```bat
+@echo off
+call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64     
+set compilerflags=/I "C:/python3/include" /I "D:/pybind11/pybind11-master/include"
+cl.exe %compilerflags% example.cpp  /LD /Fe:example.pyd  /link/LIBPATH:"C:/python3/libs/"
+```
